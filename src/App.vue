@@ -1,26 +1,53 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <h1> Let's play together </h1>
+  <button @click="start" :disabled="isPlaying" class="play"> PLAY </button>
+    <block v-if="isPlaying" :delay="delay" @end ="endGame"/>
+    <results v-if="showResult" :score="score"/>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Block from './components/Block.vue'
+import Results from './components/Results.vue'
 
 export default {
   name: 'App',
-  components: {
-    HelloWorld
+  components:{ Block , Results},
+  data(){
+    return{
+      isPlaying: false,
+      delay: null,
+      score: null,
+      showResult: false
+    }
+  },
+  methods:{
+    start(){
+        this.isPlaying = true
+        this.delay = 1000 + Math.random() * 3000
+        this.showResult = false
+      },
+      endGame(reactime){
+        this.score = reactime
+        this.isPlaying = false
+        this.showResult = true
+      }
   }
 }
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+body{
   text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+}
+#app{
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+button{
+  padding: 15px;
+  border: none;
+  background-color: blueviolet;
+  color: aliceblue;
+  font-weight: bold;
+  border-radius: 5px;
 }
 </style>
